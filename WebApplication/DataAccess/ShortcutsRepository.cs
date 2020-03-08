@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication.DataAccess
 {
-    public class ShortcutsRepository : Repository<Dbo.Shortcut, EfModels.TShortcuts>
+    public class ShortcutsRepository : Repository<Dbo.Shortcut, EfModels.TShortcuts>, IShortcutsRepository
     {
         public ShortcutsRepository(EfModels.SmartLinkContext context, ILogger logger)
             : base(context, logger)

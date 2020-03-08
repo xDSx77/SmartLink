@@ -21,28 +21,24 @@ namespace WebApplication.DataAccess
             _set = _context.Set<DBEntity>();
         }
 
-        public virtual async Task<bool> Delete(long idEntity)
+        public virtual async Task<ModelEntity> Create(ModelEntity entity)
         {
-            DBEntity dbEntity = _set.Find(idEntity);
-
-            if (dbEntity == null)
-            {
-                return false;
-            }
-            _set.Remove(dbEntity);
+            DBEntity dbEntity = AutomapperProfiles.Mapper.Map<DBEntity>(entity);
+            _set.Add(dbEntity);
             try
             {
                 await _context.SaveChangesAsync();
-                return true;
+                ModelEntity newEntity = AutomapperProfiles.Mapper.Map<ModelEntity>(dbEntity);
+                return newEntity;
             }
             catch (Exception ex)
             {
-                _logger.LogError("error on db", ex);
-                return false;
+                _logger.LogError("Cannot create new entry in this table", ex);
+                return null;
             }
         }
 
-        public virtual async Task<IEnumerable<ModelEntity>> Get(string includeTables = "")
+        public virtual async Task<IEnumerable<ModelEntity>> Read(string includeTables = "")
         {
             try
             {
@@ -59,24 +55,7 @@ namespace WebApplication.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.LogError("error on db", ex);
-                return null;
-            }
-        }
-
-        public virtual async Task<ModelEntity> Insert(ModelEntity entity)
-        {
-            DBEntity dbEntity = AutomapperProfiles.Mapper.Map<DBEntity>(entity);
-            _set.Add(dbEntity);
-            try
-            {
-                await _context.SaveChangesAsync();
-                ModelEntity newEntity = AutomapperProfiles.Mapper.Map<ModelEntity>(dbEntity);
-                return newEntity;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("error on db", ex);
+                _logger.LogError("Cannot read this table", ex);
                 return null;
             }
         }
@@ -100,10 +79,31 @@ namespace WebApplication.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.LogError("error on db", ex);
+                _logger.LogError("Cannot update this table", ex);
                 return null;
             }
             return AutomapperProfiles.Mapper.Map<ModelEntity>(dbEntity);
+        }
+
+        public virtual async Task<bool> Delete(long idEntity)
+        {
+            DBEntity dbEntity = _set.Find(idEntity);
+
+            if (dbEntity == null)
+            {
+                return false;
+            }
+            _set.Remove(dbEntity);
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Cannot delete this entry in the table", ex);
+                return false;
+            }
         }
     }
 }

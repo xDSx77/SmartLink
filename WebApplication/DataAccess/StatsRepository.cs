@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace WebApplication.DataAccess
 {
-    public class StatsRepository : Repository<Dbo.Stat, EfModels.TStats>
+    public class StatsRepository : Repository<Dbo.Stat, EfModels.TStats>, IStatsRepository
     {
-        public StatsRepository(EfModels.SmartLinkContext context, ILogger logger) :
-            base(context, logger)
+        public StatsRepository(EfModels.SmartLinkContext context, ILogger logger)
+            : base(context, logger)
         {
         }
     }
