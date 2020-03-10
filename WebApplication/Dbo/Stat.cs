@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebApplication.Dbo
 {
-    public class Stat
+    public class Stat : IObjectWithId
     {
-        public int Id { get; set; }
-        public int IdUrl { get; set; }
+        public long Id { get; set; }
+        public long IdUrl { get; set; }
         public DateTime Date { get; set; }
     }
 }

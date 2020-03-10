@@ -8,6 +8,6 @@ namespace WebApplication.Dbo
     public class StatByUrl
     {
         public string Url { get; set; }
-        public int? Expr1 { get; set; }
+        public int? Hit { get; set; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿CREATE VIEW dbo.StatByUrl
 AS
-SELECT        dbo.T_Shortcuts.url, COUNT(dbo.T_Stats.idUrl) AS Expr1
-FROM            dbo.T_Shortcuts INNER JOIN
-                         dbo.T_Stats ON dbo.T_Shortcuts.id = dbo.T_Stats.idUrl
-GROUP BY dbo.T_Shortcuts.url
+SELECT        dbo.T_Shorcuts.url, COUNT(*) AS hit, dbo.T_Shorcuts.sessionId
+FROM            dbo.T_Stats INNER JOIN
+                         dbo.T_Shorcuts ON dbo.T_Stats.idUrl = dbo.T_Shorcuts.id
+GROUP BY dbo.T_Shorcuts.url, dbo.T_Shorcuts.sessionId
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_DiagramPaneCount', @value = 1, @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'StatByUrl';
 
@@ -80,22 +80,22 @@ Begin DesignProperties =
          Left = 0
       End
       Begin Tables = 
-         Begin Table = "T_Shortcuts"
+         Begin Table = "T_Stats"
             Begin Extent = 
-               Top = 80
-               Left = 448
-               Bottom = 210
-               Right = 656
+               Top = 6
+               Left = 38
+               Bottom = 119
+               Right = 208
             End
             DisplayFlags = 280
             TopColumn = 0
          End
-         Begin Table = "T_Stats"
+         Begin Table = "T_Shorcuts"
             Begin Extent = 
-               Top = 94
-               Left = 144
-               Bottom = 207
-               Right = 352
+               Top = 6
+               Left = 246
+               Bottom = 159
+               Right = 432
             End
             DisplayFlags = 280
             TopColumn = 0
