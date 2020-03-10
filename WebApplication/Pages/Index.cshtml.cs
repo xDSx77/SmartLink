@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System.Security.Cryptography;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace WebApplication.Pages
 {
@@ -64,6 +64,11 @@ namespace WebApplication.Pages
             });
 
             return RedirectToPage("./Index");
+        }
+
+        public void CopyToClipboard(MouseEventArgs e, Dbo.Shortcut url)
+        {
+
         }
     }
 }
