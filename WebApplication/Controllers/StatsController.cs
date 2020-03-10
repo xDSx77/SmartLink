@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebApplication.Controllers
 {
-    //[Produces("application/json")]
     [Route("api/[controller]")]
     public class StatsController : Controller
     {
@@ -23,14 +20,11 @@ namespace WebApplication.Controllers
             _statsRepository = statsRepository;
         }
 
-        // GET api/<controller>/5
         [HttpGet("{sessionId}")]
         public object Get(string sessionId)
         {
-            /*if (string.IsNullOrEmpty(sessionId))
-            {
-                return BadRequest();
-            }*/
+            if (string.IsNullOrEmpty(sessionId))
+                return RedirectToPage("/Index");
             var options = new JsonSerializerOptions()
             {
                 WriteIndented = true

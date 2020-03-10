@@ -54,7 +54,7 @@ namespace WebApplication.Pages
                 {
                     sBuilder.Append(data[i].ToString("x2"));
                 }
-                hash = sBuilder.ToString().Substring(0, 5);
+                hash = sBuilder.ToString().Substring(0, 10);
             }
             await _shortcutsRepository.Insert(new Dbo.Shortcut()
             {
@@ -64,11 +64,6 @@ namespace WebApplication.Pages
             });
 
             return RedirectToPage("./Index");
-        }
-
-        public void CopyToClipboard(MouseEventArgs e, Dbo.Shortcut url)
-        {
-
         }
     }
 }

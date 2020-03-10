@@ -8,13 +8,12 @@
     ViewData["Title"] = "Home page";
 }
 
-@functions{
-    public object CopyToClipboard(Dbo.Shortcut url)
+<script>
+    function CopyToClipboard(url)
     {
-        Console.WriteLine(url.Url);
-        return null;
+        navigator.clipboard.writeText(url);
     }
-}
+</script>
 
 <div class="text-center">
     <h1 class="display-4">Bienvenue</h1>
@@ -38,7 +37,7 @@
                     <td> @urls.Url </td>
                     <td> @urls.Hash  </td>
                     <td>
-                        <button class="btn btn-primary" type="button" onClick="@CopyToClipboard(urls)">
+                        <button class="btn btn-primary" type="button" onClick="CopyToClipboard('@Html.Raw(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host.Value + "/" + urls.Hash)')">
                             Copy
                         </button>
                     </td>
