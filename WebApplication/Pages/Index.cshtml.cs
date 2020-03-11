@@ -51,18 +51,25 @@ namespace WebApplication.Pages
                 byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(UrlInput));
                 StringBuilder sBuilder = new StringBuilder();
                 for (int i = 0; i < data.Length; i++)
-                {
                     sBuilder.Append(data[i].ToString("x2"));
-                }
                 hash = sBuilder.ToString().Substring(0, 10);
+            }
+            string sessionId = HttpContext.Session.GetString(SessionKeyId);
+            foreach (var shortcut in _shortcutsRepository.GetBySessionId(sessionId))
+            {
+                if (shortcut.Hash == hash)
+                {
+                    _logger.LogError("Cannot insert shortcut: entry already exists");
+                    return RedirectToPage("./Index");
+                }
             }
             await _shortcutsRepository.Insert(new Dbo.Shortcut()
             {
                 Url = UrlInput,
                 Hash = hash,
-                SessionId = HttpContext.Session.GetString(SessionKeyId)
+                SessionId = sessionId
             });
-
+            _logger.LogInformation("Shortcut inserted in database");
             return RedirectToPage("./Index");
         }
     }

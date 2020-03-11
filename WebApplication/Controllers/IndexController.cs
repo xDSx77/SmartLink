@@ -26,7 +26,10 @@ namespace WebApplication.Controllers
         public async Task<IActionResult> GetAsync(string hash)
         {
             if (string.IsNullOrEmpty(hash))
+            {
+                _logger.LogError("Incorrect hash: string null or empty");
                 return RedirectToPage("/Index");
+            }
             string sessionKeyId = HttpContext.Session.GetString("_Id");
             List<Dbo.Shortcut> shortcuts = _shortcutsRepository.GetBySessionId(sessionKeyId);
             foreach(var shortcut in shortcuts)
@@ -38,9 +41,11 @@ namespace WebApplication.Controllers
                         IdUrl = shortcut.Id,
                         Date = DateTime.Now
                     });
+                    _logger.LogInformation("Stat entry correctly inserted");
                     return Redirect(shortcut.Url);
                 }
             }
+            _logger.LogWarning("Hash not found for this sessionId: stat not updated");
             return RedirectToPage("/Index");
         }
     }
